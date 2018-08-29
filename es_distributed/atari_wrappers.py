@@ -2,6 +2,7 @@ import numpy as np
 from collections import deque
 from PIL import Image
 import gym
+import vizdoomgym
 from gym import spaces
 
 

@@ -170,20 +170,21 @@ class WorkerClient:
         return [deserialize(novelty_vector) for novelty_vector in archive]
 
     def get_current_task(self):
+        print("[worker] requesting task")
         with self.local_redis.pipeline() as pipe:
             while True:
                 try:
                     pipe.watch(TASK_ID_KEY)
                     task_id = int(retry_get(pipe, TASK_ID_KEY))
                     if task_id == self.cached_task_id:
-                        logger.debug('[worker] Returning cached task {}'.format(task_id))
                         break
                     pipe.multi()
                     pipe.get(TASK_DATA_KEY)
-                    logger.info('[worker] Getting new task {}. Cached task was {}'.format(task_id, self.cached_task_id))
+                    print('[worker] Getting new task {}. Cached task was {}'.format(task_id, self.cached_task_id))
                     self.cached_task_id, self.cached_task_data = task_id, deserialize(pipe.execute()[0])
                     break
-                except redis.WatchError:
+                except redis.WatchError as e:
+                    print("[worker] WatchError {0}): {1}".format(e.errno, e.strerror))
                     continue
         return self.cached_task_id, self.cached_task_data
 

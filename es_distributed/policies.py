@@ -381,6 +381,8 @@ class ESAtariPolicy(Policy):
         Otherwise, no action noise will be added.
         """
         env_timestep_limit = env.spec.tags.get('wrapper_config.TimeLimit.max_episode_steps')
+        if env_timestep_limit is None:
+            env_timestep_limit = 1000000
 
         timestep_limit = env_timestep_limit if timestep_limit is None else min(timestep_limit, env_timestep_limit)
         rews = []; novelty_vector = []
@@ -407,7 +409,7 @@ class ESAtariPolicy(Policy):
 
             start_time = time.time()
             ob, rew, done, info = env.step(ac)
-            ram = env.unwrapped._get_ram() # extracts RAM state information
+            #ram = env.unwrapped._get_ram() # extracts RAM state information
 
             if save_obs:
                obs.append(ob)
@@ -415,7 +417,7 @@ class ESAtariPolicy(Policy):
                 worker_stats.time_comp_step += time.time() - start_time
 
             rews.append(rew)
-            novelty_vector.append(ram)
+            #novelty_vector.append(ram)
 
             t += 1
             if render:
@@ -425,8 +427,8 @@ class ESAtariPolicy(Policy):
 
         rews = np.array(rews, dtype=np.float32)
         if save_obs:
-            return rews, t, np.array(obs), np.array(novelty_vector)
-        return rews, t, np.array(novelty_vector)
+            return rews, t, np.array(obs)#, np.array(novelty_vector)
+        return rews, t, #np.array(novelty_vector)
 
 
 
@@ -470,15 +472,19 @@ class GAAtariPolicy(Policy):
     def act(self, train_vars, random_stream=None):
         return self._act(train_vars)
 
-    def rollout(self, env, *, render=False, timestep_limit=None, save_obs=False, random_stream=None, worker_stats=None, policy_seed=None):
+    def rollout(self, env, *, render=False, timestep_limit=None, save_obs=False, random_stream=None, worker_stats=None, policy_seed=None, reps=1):
         """
         If random_stream is provided, the rollout will take noisy actions with noise drawn from that stream.
         Otherwise, no action noise will be added.
         """
         env_timestep_limit = env.spec.tags.get('wrapper_config.TimeLimit.max_episode_steps')
+        if env_timestep_limit is None:
+            env_timestep_limit = 1000000
+
+        print("timestep_limit = " + str(timestep_limit))
+        print("env_timestep_limit = " + str(env_timestep_limit))
         timestep_limit = env_timestep_limit if timestep_limit is None else min(timestep_limit, env_timestep_limit)
-        rews = []; novelty_vector = []
-        rollout_details = {}
+        rews = []
         t = 0
 
         if save_obs:
@@ -490,25 +496,25 @@ class GAAtariPolicy(Policy):
             if random_stream:
                 random_stream.seed(policy_seed)
 
-        ob = env.reset()
-        for _ in range(timestep_limit):
-            ac = self.act(ob[None], random_stream=random_stream)[0]
+        for r in range(reps):
+            ob = env.reset()
+            for _ in range(timestep_limit):
+                ac = self.act(ob[None], random_stream=random_stream)[0]
 
-            if save_obs:
-                obs.append(ob)
-            ob, rew, done, info = env.step(ac)
-            rews.append(rew)
+                if save_obs:
+                    obs.append(ob)
+                ob, rew, done, info = env.step(ac)
+                rews.append(rew)
 
-            t += 1
-            if render:
-                env.render()
-            if done:
-                break
+                t += 1
+                if render:
+                    env.render()
+                if done:
+                    break
 
         # Copy over final positions to the max timesteps
         rews = np.array(rews, dtype=np.float32)
-        novelty_vector = env.unwrapped._get_ram() # extracts RAM state information
         if save_obs:
-            return rews, t, np.array(obs), np.array(novelty_vector)
-        return rews, t, np.array(novelty_vector)
+            return rews, t, np.array(obs)
+        return rews, t
 

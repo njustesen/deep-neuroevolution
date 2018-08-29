@@ -1,5 +1,5 @@
 from .es import *
-
+import vizdoomgym
 
 GATask = namedtuple('GATask', ['params', 'population', 'ob_mean', 'ob_std', 'timestep_limit'])
 
@@ -20,13 +20,13 @@ def setup(exp, single_threaded):
     return config, env, sess, policy
 
 
-def rollout_and_update_ob_stat(policy, env, timestep_limit, rs, task_ob_stat, calc_obstat_prob):
+def rollout_and_update_ob_stat(policy, env, timestep_limit, rs, task_ob_stat, calc_obstat_prob, reps):
     if policy.needs_ob_stat and calc_obstat_prob != 0 and rs.rand() < calc_obstat_prob:
         rollout_rews, rollout_len, obs = policy.rollout(
-            env, timestep_limit=timestep_limit, save_obs=True, random_stream=rs)
+            env, timestep_limit=timestep_limit, save_obs=True, random_stream=rs, render=False, reps=reps)
         task_ob_stat.increment(obs.sum(axis=0), np.square(obs).sum(axis=0), len(obs))
     else:
-        rollout_rews, rollout_len, rollout_nov = policy.rollout(env, timestep_limit=timestep_limit, random_stream=rs)
+        rollout_rews, rollout_len = policy.rollout(env, timestep_limit=timestep_limit, random_stream=rs, render=False, reps=reps)
     return rollout_rews, rollout_len
 
 
@@ -227,7 +227,7 @@ def run_worker(master_redis_cfg, relay_redis_cfg, noise, *, min_task_runtime=.2)
         if rs.rand() < config.eval_prob:
             # Evaluation: noiseless weights and noiseless actions
             policy.set_trainable_flat(task_data.params)
-            eval_rews, eval_length = policy.rollout(env)  # eval rollouts don't obey task_data.timestep_limit
+            eval_rews, eval_length = policy.rollout(env, render=True)  # eval rollouts don't obey task_data.timestep_limit
             eval_return = eval_rews.sum()
             logger.info('Eval result: task={} return={:.3f} length={}'.format(task_id, eval_return, eval_length))
             worker.push_result(task_id, Result(
@@ -264,7 +264,7 @@ def run_worker(master_redis_cfg, relay_redis_cfg, noise, *, min_task_runtime=.2)
                 policy.set_trainable_flat(v)
 
                 rews_pos, len_pos = rollout_and_update_ob_stat(
-                    policy, env, task_data.timestep_limit, rs, task_ob_stat, config.calc_obstat_prob)
+                    policy, env, task_data.timestep_limit, rs, task_ob_stat, config.calc_obstat_prob, config.reps)
                 noise_inds.append(seeds)
                 returns.append(rews_pos.sum())
                 signreturns.append(np.sign(rews_pos).sum())

@@ -2,16 +2,16 @@
   "config": {
     "calc_obstat_prob": 0.0,
     "episodes_per_batch": 2,
-    "eval_prob": 0.05,
+    "eval_prob": 0.01,
     "l2coeff": 0.005,
     "noise_stdev": 0.005,
     "snapshot_freq": 20,
-    "timesteps_per_batch": 10000,
+    "timesteps_per_batch": 1000,
     "return_proc_mode": "centered_rank",
-    "episode_cutoff_mode": 5000,
+    "episode_cutoff_mode": 1000,
     "reps": 1
   },
-  "env_id": "FrostbiteNoFrameskip-v4",
+  "env_id": "VizdoomBasic-v0",
   "optimizer": {
     "args": {
       "stepsize": 0.01

@@ -1,6 +1,7 @@
 import logging
 import time
 from collections import namedtuple
+import vizdoomgym
 
 
 import numpy as np
@@ -12,7 +13,7 @@ logger = logging.getLogger(__name__)
 Config = namedtuple('Config', [
     'l2coeff', 'noise_stdev', 'episodes_per_batch', 'timesteps_per_batch',
     'calc_obstat_prob', 'eval_prob', 'snapshot_freq',
-    'return_proc_mode', 'episode_cutoff_mode'
+    'return_proc_mode', 'episode_cutoff_mode', 'reps'
 ])
 Task = namedtuple('Task', ['params', 'ob_mean', 'ob_std', 'ref_batch', 'timestep_limit'])
 Result = namedtuple('Result', [
@@ -129,7 +130,7 @@ def setup(exp, single_threaded):
 
     config = Config(**exp['config'])
     env = gym.make(exp['env_id'])
-    if exp['policy']['type'] == "ESAtariPolicy":
+    if exp['policy']['type'] == "ESAtariPolicy" and exp['env_id'].endswith('NoFrameskip-v4'):
         from .atari_wrappers import wrap_deepmind
         env = wrap_deepmind(env)
     sess = make_session(single_threaded=single_threaded)
@@ -160,7 +161,6 @@ def run_master(master_redis_cfg, log_dir, exp):
     if policy.needs_ref_batch:
         ref_batch = get_ref_batch(env, batch_size=128)
         policy.set_ref_batch(ref_batch)
-
 
     if 'init_from' in exp['policy']:
         logger.info('Initializing weights from {}'.format(exp['policy']['init_from']))
@@ -208,13 +208,21 @@ def run_master(master_redis_cfg, log_dir, exp):
         curr_task_results, eval_rets, eval_lens, worker_ids = [], [], [], []
         num_results_skipped, num_episodes_popped, num_timesteps_popped, ob_count_this_batch = 0, 0, 0, 0
         while num_episodes_popped < config.episodes_per_batch or num_timesteps_popped < config.timesteps_per_batch:
+
+            print("num_episodes_popped: " + str(num_episodes_popped))
+            print("config.episodes_per_batch: " + str(config.episodes_per_batch))
+            print("num_timesteps_popped: " + str(num_timesteps_popped))
+            print("config.timesteps_per_batch: " + str(config.timesteps_per_batch))
+
             # Wait for a result
             task_id, result = master.pop_result()
             assert isinstance(task_id, int) and isinstance(result, Result)
             assert (result.eval_return is None) == (result.eval_length is None)
+            print("MASTER: result received from " + str(result.worker_id))
             worker_ids.append(result.worker_id)
 
             if result.eval_length is not None:
+                print("Evaluation run")
                 # This was an eval job
                 episodes_so_far += 1
                 timesteps_so_far += result.eval_length
@@ -227,6 +235,8 @@ def run_master(master_redis_cfg, log_dir, exp):
                         result.returns_n2.shape == result.lengths_n2.shape == (len(result.noise_inds_n), 2))
                 assert result.returns_n2.dtype == np.float32
                 # Store results only for current tasks
+                print("task_id: " + str(task_id))
+                print("curr_task_id: " + str(curr_task_id))
                 if task_id == curr_task_id:
                     # Update counts
                     result_num_eps = result.lengths_n2.size
@@ -236,12 +246,14 @@ def run_master(master_redis_cfg, log_dir, exp):
 
                     curr_task_results.append(result)
                     num_episodes_popped += result_num_eps
+                    print("result_num_eps: " + str(result_num_eps))
                     num_timesteps_popped += result_num_timesteps
                     # Update ob stats
                     if policy.needs_ob_stat and result.ob_count > 0:
                         ob_stat.increment(result.ob_sum, result.ob_sumsq, result.ob_count)
                         ob_count_this_batch += result.ob_count
                 else:
+                    print("result skipped")
                     num_results_skipped += 1
 
         # Compute skip fraction
@@ -336,12 +348,12 @@ def run_master(master_redis_cfg, log_dir, exp):
 
 def rollout_and_update_ob_stat(policy, env, timestep_limit, rs, task_ob_stat, calc_obstat_prob):
     if policy.needs_ob_stat and calc_obstat_prob != 0 and rs.rand() < calc_obstat_prob:
-        rollout_rews, rollout_len, obs, rollout_nov = policy.rollout(
-            env, timestep_limit=timestep_limit, save_obs=True, random_stream=rs)
+        rollout_rews, rollout_len, obs = policy.rollout(
+            env, timestep_limit=timestep_limit, save_obs=True, random_stream=rs, render=True)
         task_ob_stat.increment(obs.sum(axis=0), np.square(obs).sum(axis=0), len(obs))
     else:
-        rollout_rews, rollout_len, rollout_nov = policy.rollout(env, timestep_limit=timestep_limit, random_stream=rs)
-    return rollout_rews, rollout_len, rollout_nov
+        rollout_rews, rollout_len = policy.rollout(env, timestep_limit=timestep_limit, random_stream=rs, render=True)
+    return rollout_rews, rollout_len
 
 
 def run_worker(master_redis_cfg, relay_redis_cfg, noise, *, min_task_runtime=.2):
@@ -357,6 +369,7 @@ def run_worker(master_redis_cfg, relay_redis_cfg, noise, *, min_task_runtime=.2)
 
     while True:
         task_id, task_data = worker.get_current_task()
+        print("Got task_id {}".format(task_id))
         task_tstart = time.time()
         assert isinstance(task_id, int) and isinstance(task_data, Task)
 
@@ -369,7 +382,7 @@ def run_worker(master_redis_cfg, relay_redis_cfg, noise, *, min_task_runtime=.2)
         if rs.rand() < config.eval_prob:
             # Evaluation: noiseless weights and noiseless actions
             policy.set_trainable_flat(task_data.params)
-            eval_rews, eval_length, _ = policy.rollout(env, timestep_limit=task_data.timestep_limit)
+            eval_rews, eval_length = policy.rollout(env, timestep_limit=task_data.timestep_limit)
             eval_return = eval_rews.sum()
             logger.info('Eval result: task={} return={:.3f} length={}'.format(task_id, eval_return, eval_length))
             worker.push_result(task_id, Result(
@@ -394,11 +407,14 @@ def run_worker(master_redis_cfg, relay_redis_cfg, noise, *, min_task_runtime=.2)
                 v = config.noise_stdev * noise.get(noise_idx, policy.num_params)
 
                 policy.set_trainable_flat(task_data.params + v)
-                rews_pos, len_pos, nov_vec_pos = rollout_and_update_ob_stat(
+
+                rews_pos, len_pos = rollout_and_update_ob_stat(
                     policy, env, task_data.timestep_limit, rs, task_ob_stat, config.calc_obstat_prob)
 
+                print("Episode ended with score = " + str(np.sum(rews_pos)))
+
                 policy.set_trainable_flat(task_data.params - v)
-                rews_neg, len_neg, nov_vec_neg = rollout_and_update_ob_stat(
+                rews_neg, len_neg = rollout_and_update_ob_stat(
                     policy, env, task_data.timestep_limit, rs, task_ob_stat, config.calc_obstat_prob)
     
                 signreturns.append([np.sign(rews_pos).sum(), np.sign(rews_neg).sum()])
@@ -406,6 +422,7 @@ def run_worker(master_redis_cfg, relay_redis_cfg, noise, *, min_task_runtime=.2)
                 returns.append([rews_pos.sum(), rews_neg.sum()])
                 lengths.append([len_pos, len_neg])
 
+            print("Pushing results " + str(len(returns)))
             worker.push_result(task_id, Result(
                 worker_id=worker_id,
                 noise_inds_n=np.array(noise_inds),
