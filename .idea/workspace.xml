@@ -2,16 +2,9 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="8e276fd2-837d-40fe-bdfa-d6ca90c4a7e3" name="Default" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/configurations/doom_basic_es.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/configurations/doom_basic_ga.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/configurations/frostbite_es.json" beforeDir="false" afterPath="$PROJECT_DIR$/configurations/frostbite_es.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/es_distributed/atari_wrappers.py" beforeDir="false" afterPath="$PROJECT_DIR$/es_distributed/atari_wrappers.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/es_distributed/dist.py" beforeDir="false" afterPath="$PROJECT_DIR$/es_distributed/dist.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/es_distributed/es_niels.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/es_distributed/es.py" beforeDir="false" afterPath="$PROJECT_DIR$/es_distributed/es.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/es_distributed/ga.py" beforeDir="false" afterPath="$PROJECT_DIR$/es_distributed/ga.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/es_distributed/policies.py" beforeDir="false" afterPath="$PROJECT_DIR$/es_distributed/policies.py" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -34,13 +27,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="es_modified.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/es_distributed/es_modified.py">
+      <file leaf-file-name="policies.py" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/es_distributed/policies.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state>
-              <folding>
-                <element signature="e#0#14#0" expanded="true" />
-              </folding>
+            <state relative-caret-position="60">
+              <caret line="4" column="11" lean-forward="true" selection-start-line="4" selection-start-column="11" selection-end-line="4" selection-end-column="11" />
             </state>
           </provider>
         </entry>
@@ -54,22 +45,10 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="es.py" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/es_distributed/es.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="290">
-              <caret line="231" column="56" lean-forward="true" selection-start-line="231" selection-start-column="56" selection-end-line="231" selection-end-column="56" />
-              <folding>
-                <element signature="e#0#14#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
       <file leaf-file-name="dist.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/es_distributed/dist.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="666">
+            <state relative-caret-position="2640">
               <caret line="183" column="39" selection-start-line="183" selection-start-column="25" selection-end-line="183" selection-end-column="39" />
               <folding>
                 <element signature="e#0#14#0" expanded="true" />
@@ -81,7 +60,7 @@
       <file leaf-file-name="__init__.py" pinned="false" current-in-tab="false">
         <entry file="file:///Library/Frameworks/Python.framework/Versions/3.6/lib/python3.6/logging/__init__.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-3963">
+            <state relative-caret-position="1425">
               <caret line="97" column="5" selection-start-line="97" selection-end-line="97" selection-end-column="5" />
             </state>
           </provider>
@@ -91,7 +70,28 @@
         <entry file="file://$PROJECT_DIR$/scripts/local_run_exp.sh">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="165">
-              <caret line="11" selection-start-line="11" selection-end-line="11" />
+              <caret line="11" lean-forward="true" selection-start-line="11" selection-end-line="11" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="es.py" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/es_distributed/es.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="375">
+              <caret line="25" column="35" selection-start-line="25" selection-start-column="35" selection-end-line="25" selection-end-column="35" />
+              <folding>
+                <element signature="e#0#14#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="es_niels.py" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/es_distributed/es_niels.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="45">
+              <caret line="3" selection-start-line="3" selection-end-line="3" selection-end-column="17" />
             </state>
           </provider>
         </entry>
@@ -108,8 +108,8 @@
       <file leaf-file-name="frostbite_es.json" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/configurations/frostbite_es.json">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="375">
-              <caret line="25" selection-start-line="25" selection-end-line="25" />
+            <state relative-caret-position="30">
+              <caret line="2" column="28" lean-forward="true" selection-start-line="2" selection-start-column="28" selection-end-line="2" selection-end-column="28" />
             </state>
           </provider>
         </entry>
@@ -143,6 +143,7 @@
       <find>curr_task_id</find>
       <find>Logger(</find>
       <find>logger.</find>
+      <find>reps</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -172,10 +173,11 @@
   <component name="NodePackageJsonFileManager">
     <packageJsonPaths />
   </component>
-  <component name="ProjectFrameBounds">
-    <option name="y" value="23" />
-    <option name="width" value="1680" />
-    <option name="height" value="1027" />
+  <component name="ProjectFrameBounds" extendedState="1">
+    <option name="x" value="274" />
+    <option name="y" value="314" />
+    <option name="width" value="1440" />
+    <option name="height" value="877" />
   </component>
   <component name="ProjectView">
     <navigator proportions="" version="1">
@@ -186,38 +188,23 @@
         <subPane>
           <expand>
             <path>
-              <item name="deep-neuroevolution" type="b2602c69:ProjectViewProjectNode" />
-              <item name="deep-neuroevolution" type="462c0819:PsiDirectoryNode" />
+              <item name="deep-neuroevolution-niels" type="b2602c69:ProjectViewProjectNode" />
+              <item name="deep-neuroevolution-niels" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
-              <item name="deep-neuroevolution" type="b2602c69:ProjectViewProjectNode" />
-              <item name="deep-neuroevolution" type="462c0819:PsiDirectoryNode" />
+              <item name="deep-neuroevolution-niels" type="b2602c69:ProjectViewProjectNode" />
+              <item name="deep-neuroevolution-niels" type="462c0819:PsiDirectoryNode" />
               <item name="configurations" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
-              <item name="deep-neuroevolution" type="b2602c69:ProjectViewProjectNode" />
-              <item name="deep-neuroevolution" type="462c0819:PsiDirectoryNode" />
+              <item name="deep-neuroevolution-niels" type="b2602c69:ProjectViewProjectNode" />
+              <item name="deep-neuroevolution-niels" type="462c0819:PsiDirectoryNode" />
               <item name="es_distributed" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
-              <item name="deep-neuroevolution" type="b2602c69:ProjectViewProjectNode" />
-              <item name="deep-neuroevolution" type="462c0819:PsiDirectoryNode" />
-              <item name="extra" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="deep-neuroevolution" type="b2602c69:ProjectViewProjectNode" />
-              <item name="deep-neuroevolution" type="462c0819:PsiDirectoryNode" />
-              <item name="redis_config" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="deep-neuroevolution" type="b2602c69:ProjectViewProjectNode" />
-              <item name="deep-neuroevolution" type="462c0819:PsiDirectoryNode" />
+              <item name="deep-neuroevolution-niels" type="b2602c69:ProjectViewProjectNode" />
+              <item name="deep-neuroevolution-niels" type="462c0819:PsiDirectoryNode" />
               <item name="scripts" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="deep-neuroevolution" type="b2602c69:ProjectViewProjectNode" />
-              <item name="deep-neuroevolution" type="462c0819:PsiDirectoryNode" />
-              <item name="visual_inspector" type="462c0819:PsiDirectoryNode" />
             </path>
           </expand>
           <select />
@@ -235,6 +222,7 @@
   </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/es_distributed" />
       <recent name="$PROJECT_DIR$/configurations" />
     </key>
   </component>
@@ -264,8 +252,7 @@
     <servers />
   </component>
   <component name="ToolWindowManager">
-    <frame x="0" y="23" width="1680" height="1027" extended-state="0" />
-    <editor active="true" />
+    <frame x="274" y="314" width="1440" height="877" extended-state="1" />
     <layout>
       <window_info anchor="bottom" id="TODO" order="6" />
       <window_info anchor="bottom" id="Event Log" order="7" side_tool="true" />
@@ -274,7 +261,7 @@
       <window_info anchor="bottom" id="Version Control" order="7" />
       <window_info anchor="bottom" id="Python Console" order="7" />
       <window_info anchor="bottom" id="Terminal" order="7" />
-      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.16904762" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.19722222" />
       <window_info anchor="bottom" id="Docker" order="7" show_stripe_button="false" />
       <window_info anchor="right" id="Database" order="3" />
       <window_info anchor="right" id="SciView" order="3" />
@@ -308,13 +295,6 @@
     </breakpoint-manager>
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/es_distributed/policies.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="6945">
-          <caret line="472" column="15" selection-start-line="472" selection-start-column="8" selection-end-line="472" selection-end-column="15" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/configurations/doom_basic_ga.json">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="330">
@@ -500,13 +480,6 @@
     <entry file="file://$PROJECT_DIR$/es_distributed/optimizers.py">
       <provider selected="true" editor-type-id="text-editor" />
     </entry>
-    <entry file="file://$PROJECT_DIR$/es_distributed/policies.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="284">
-          <caret line="258" column="16" selection-start-line="258" selection-start-column="16" selection-end-line="258" selection-end-column="16" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/es_distributed/rs.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="-26" />
@@ -578,13 +551,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/scripts/local_run_exp.sh">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="165">
-          <caret line="11" selection-start-line="11" selection-end-line="11" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/scripts/dependency.sh">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="-944" />
@@ -599,8 +565,39 @@
     </entry>
     <entry file="file:///Library/Frameworks/Python.framework/Versions/3.6/lib/python3.6/logging/__init__.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-3963">
+        <state relative-caret-position="1425">
           <caret line="97" column="5" selection-start-line="97" selection-end-line="97" selection-end-column="5" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/es_distributed/dist.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="2640">
+          <caret line="183" column="39" selection-start-line="183" selection-start-column="25" selection-end-line="183" selection-end-column="39" />
+          <folding>
+            <element signature="e#0#14#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/configurations/doom_basic_es.json">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="60">
+          <caret line="4" column="22" selection-start-line="4" selection-start-column="22" selection-end-line="4" selection-end-column="22" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/scripts/local_run_exp.sh">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="165">
+          <caret line="11" lean-forward="true" selection-start-line="11" selection-end-line="11" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/configurations/frostbite_es.json">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="30">
+          <caret line="2" column="28" lean-forward="true" selection-start-line="2" selection-start-column="28" selection-end-line="2" selection-end-column="28" />
         </state>
       </provider>
     </entry>
@@ -614,37 +611,27 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/es_distributed/dist.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="666">
-          <caret line="183" column="39" selection-start-line="183" selection-start-column="25" selection-end-line="183" selection-end-column="39" />
-          <folding>
-            <element signature="e#0#14#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/configurations/frostbite_es.json">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="375">
-          <caret line="25" selection-start-line="25" selection-end-line="25" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/configurations/doom_basic_es.json">
+    <entry file="file://$PROJECT_DIR$/es_distributed/policies.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="60">
-          <caret line="4" column="22" selection-start-line="4" selection-start-column="22" selection-end-line="4" selection-end-column="22" />
+          <caret line="4" column="11" lean-forward="true" selection-start-line="4" selection-start-column="11" selection-end-line="4" selection-end-column="11" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/es_distributed/es.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="290">
-          <caret line="231" column="56" lean-forward="true" selection-start-line="231" selection-start-column="56" selection-end-line="231" selection-end-column="56" />
+        <state relative-caret-position="375">
+          <caret line="25" column="35" selection-start-line="25" selection-start-column="35" selection-end-line="25" selection-end-column="35" />
           <folding>
             <element signature="e#0#14#0" expanded="true" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/es_distributed/es_niels.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="45">
+          <caret line="3" selection-start-line="3" selection-end-line="3" selection-end-column="17" />
         </state>
       </provider>
     </entry>

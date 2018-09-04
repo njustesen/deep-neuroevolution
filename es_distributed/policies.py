@@ -68,12 +68,15 @@ class Policy:
 
     # === Rollouts/training ===
 
-    def rollout(self, env, *, render=False, timestep_limit=None, save_obs=False, random_stream=None):
+    def rollout(self, env, *, render=False, timestep_limit=None, save_obs=False, random_stream=None, repetitions=1):
         """
         If random_stream is provided, the rollout will take noisy actions with noise drawn from that stream.
         Otherwise, no action noise will be added.
         """
         env_timestep_limit = env.spec.tags.get('wrapper_config.TimeLimit.max_episode_steps')
+        print("env_timestep_limit={}".format(env_timestep_limit))
+        print("timestep_limit={}".format(timestep_limit))
+
         timestep_limit = env_timestep_limit if timestep_limit is None else min(timestep_limit, env_timestep_limit)
         rews = []
         t = 0
@@ -381,8 +384,6 @@ class ESAtariPolicy(Policy):
         Otherwise, no action noise will be added.
         """
         env_timestep_limit = env.spec.tags.get('wrapper_config.TimeLimit.max_episode_steps')
-        if env_timestep_limit is None:
-            env_timestep_limit = 1000000
 
         timestep_limit = env_timestep_limit if timestep_limit is None else min(timestep_limit, env_timestep_limit)
         rews = []; novelty_vector = []
@@ -409,7 +410,7 @@ class ESAtariPolicy(Policy):
 
             start_time = time.time()
             ob, rew, done, info = env.step(ac)
-            #ram = env.unwrapped._get_ram() # extracts RAM state information
+            ram = env.unwrapped._get_ram() # extracts RAM state information
 
             if save_obs:
                obs.append(ob)
@@ -417,7 +418,7 @@ class ESAtariPolicy(Policy):
                 worker_stats.time_comp_step += time.time() - start_time
 
             rews.append(rew)
-            #novelty_vector.append(ram)
+            novelty_vector.append(ram)
 
             t += 1
             if render:
@@ -427,9 +428,144 @@ class ESAtariPolicy(Policy):
 
         rews = np.array(rews, dtype=np.float32)
         if save_obs:
-            return rews, t, np.array(obs)#, np.array(novelty_vector)
-        return rews, t, #np.array(novelty_vector)
+            return rews, t, np.array(obs), np.array(novelty_vector)
+        return rews, t, np.array(novelty_vector)
 
+
+class ESVizdoomPolicy(Policy):
+    def _initialize(self, ob_space, ac_space):
+        self.ob_space_shape = ob_space.shape
+        self.ac_space = ac_space
+        self.num_actions = ac_space.n
+
+        with tf.variable_scope(type(self).__name__) as scope:
+            o = tf.placeholder(tf.float32, [None] + list(self.ob_space_shape))
+            is_ref_ph = tf.placeholder(tf.bool, shape=[])
+
+            a = self._make_net(o, is_ref_ph)
+            self._act = U.function([o, is_ref_ph] , a)
+        return scope
+
+    def _make_net(self, o, is_ref):
+        x = o
+        x = layers.convolution2d(x, num_outputs=16, kernel_size=8, stride=4, activation_fn=None, scope='conv1')
+        x = layers.batch_norm(x, scale=True, is_training=is_ref, decay=0., updates_collections=None, activation_fn=tf.nn.relu, epsilon=1e-3)
+        x = layers.convolution2d(x, num_outputs=32, kernel_size=4, stride=2, activation_fn=None, scope='conv2')
+        x = layers.batch_norm(x, scale=True, is_training=is_ref, decay=0., updates_collections=None, activation_fn=tf.nn.relu, epsilon=1e-3)
+
+        x = layers.flatten(x)
+        x = layers.fully_connected(x, num_outputs=256, activation_fn=None, scope='fc')
+        x = layers.batch_norm(x, scale=True, is_training=is_ref, decay=0., updates_collections=None, activation_fn=tf.nn.relu, epsilon=1e-3)
+        a = layers.fully_connected(x, num_outputs=self.num_actions, activation_fn=None, scope='out')
+        return tf.argmax(a,1)
+
+    def set_ref_batch(self, ref_batch):
+        self.ref_list = []
+        self.ref_list.append(ref_batch)
+        self.ref_list.append(True)
+
+    @property
+    def needs_ob_stat(self):
+        return False
+
+    @property
+    def needs_ref_batch(self):
+        return True
+
+    def initialize_from(self, filename):
+        """
+        Initializes weights from another policy, which must have the same architecture (variable names),
+        but the weight arrays can be smaller than the current policy.
+        """
+        with h5py.File(filename, 'r') as f:
+            f_var_names = []
+            f.visititems(lambda name, obj: f_var_names.append(name) if isinstance(obj, h5py.Dataset) else None)
+            assert set(v.name for v in self.all_variables) == set(f_var_names), 'Variable names do not match'
+
+            init_vals = []
+            for v in self.all_variables:
+                shp = v.get_shape().as_list()
+                f_shp = f[v.name].shape
+                assert len(shp) == len(f_shp) and all(a >= b for a, b in zip(shp, f_shp)), \
+                    'This policy must have more weights than the policy to load'
+                init_val = v.eval()
+                # ob_mean and ob_std are initialized with nan, so set them manually
+                if 'ob_mean' in v.name:
+                    init_val[:] = 0
+                    init_mean = init_val
+                elif 'ob_std' in v.name:
+                    init_val[:] = 0.001
+                    init_std = init_val
+                # Fill in subarray from the loaded policy
+                init_val[tuple([np.s_[:s] for s in f_shp])] = f[v.name]
+                init_vals.append(init_val)
+            self.set_all_vars(*init_vals)
+
+    def act(self, train_vars, random_stream=None):
+        return self._act(*train_vars)
+
+
+    def rollout(self, env, *, render=False, timestep_limit=None, save_obs=False, random_stream=None, worker_stats=None, policy_seed=None, repetitions=1):
+        """
+        If random_stream is provided, the rollout will take noisy actions with noise drawn from that stream.
+        Otherwise, no action noise will be added.
+        """
+        env_timestep_limit = env.spec.tags.get('wrapper_config.TimeLimit.max_episode_steps')
+        if env_timestep_limit is None:
+            env_timestep_limit = timestep_limit
+
+        #print("env_timestep_limit={}".format(env_timestep_limit))
+        #print("timestep_limit={}".format(timestep_limit))
+
+        timestep_limit = env_timestep_limit if timestep_limit is None else min(timestep_limit, env_timestep_limit)
+        rews = []; novelty_vector = []
+        t = 0
+
+        if save_obs:
+            obs = []
+
+        if policy_seed:
+            env.seed(policy_seed)
+            np.random.seed(policy_seed)
+            if random_stream:
+                random_stream.seed(policy_seed)
+
+        self.act(self.ref_list, random_stream=random_stream)  # passing ref batch through network
+        ob = env.reset()
+
+        for rep in range(repetitions):
+
+
+            for _ in range(timestep_limit):
+                start_time = time.time()
+                ac = self.act([ob[None], False], random_stream=random_stream)[0]
+
+                if worker_stats:
+                    worker_stats.time_comp_act += time.time() - start_time
+
+                start_time = time.time()
+                ob, rew, done, info = env.step(ac)
+                #ram = env.unwrapped._get_ram() # extracts RAM state information
+                ram = [1,1]
+
+                if save_obs:
+                   obs.append(ob)
+                if worker_stats:
+                    worker_stats.time_comp_step += time.time() - start_time
+
+                rews.append(rew)
+                novelty_vector.append(ram)
+
+                t += 1
+                if render:
+                    env.render()
+                if done:
+                    break
+
+        rews = np.array(rews, dtype=np.float32)
+        if save_obs:
+            return rews, t, np.array(obs), np.array(novelty_vector)
+        return rews, t, np.array(novelty_vector)
 
 
 class GAAtariPolicy(Policy):
@@ -472,19 +608,15 @@ class GAAtariPolicy(Policy):
     def act(self, train_vars, random_stream=None):
         return self._act(train_vars)
 
-    def rollout(self, env, *, render=False, timestep_limit=None, save_obs=False, random_stream=None, worker_stats=None, policy_seed=None, reps=1):
+    def rollout(self, env, *, render=False, timestep_limit=None, save_obs=False, random_stream=None, worker_stats=None, policy_seed=None):
         """
         If random_stream is provided, the rollout will take noisy actions with noise drawn from that stream.
         Otherwise, no action noise will be added.
         """
         env_timestep_limit = env.spec.tags.get('wrapper_config.TimeLimit.max_episode_steps')
-        if env_timestep_limit is None:
-            env_timestep_limit = 1000000
-
-        print("timestep_limit = " + str(timestep_limit))
-        print("env_timestep_limit = " + str(env_timestep_limit))
         timestep_limit = env_timestep_limit if timestep_limit is None else min(timestep_limit, env_timestep_limit)
-        rews = []
+        rews = []; novelty_vector = []
+        rollout_details = {}
         t = 0
 
         if save_obs:
@@ -496,25 +628,25 @@ class GAAtariPolicy(Policy):
             if random_stream:
                 random_stream.seed(policy_seed)
 
-        for r in range(reps):
-            ob = env.reset()
-            for _ in range(timestep_limit):
-                ac = self.act(ob[None], random_stream=random_stream)[0]
+        ob = env.reset()
+        for _ in range(timestep_limit):
+            ac = self.act(ob[None], random_stream=random_stream)[0]
 
-                if save_obs:
-                    obs.append(ob)
-                ob, rew, done, info = env.step(ac)
-                rews.append(rew)
+            if save_obs:
+                obs.append(ob)
+            ob, rew, done, info = env.step(ac)
+            rews.append(rew)
 
-                t += 1
-                if render:
-                    env.render()
-                if done:
-                    break
+            t += 1
+            if render:
+                env.render()
+            if done:
+                break
 
         # Copy over final positions to the max timesteps
         rews = np.array(rews, dtype=np.float32)
+        novelty_vector = env.unwrapped._get_ram() # extracts RAM state information
         if save_obs:
-            return rews, t, np.array(obs)
-        return rews, t
+            return rews, t, np.array(obs), np.array(novelty_vector)
+        return rews, t, np.array(novelty_vector)
 

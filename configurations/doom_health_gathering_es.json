@@ -8,10 +8,10 @@
     "snapshot_freq": 20,
     "timesteps_per_batch": 1000,
     "return_proc_mode": "centered_rank",
-    "episode_cutoff_mode": 1000,
+    "episode_cutoff_mode": 10000,
     "repetitions": 1
   },
-  "env_id": "VizdoomBasic-v0",
+  "env_id": "VizdoomHealthGathering-v0",
   "optimizer": {
     "args": {
       "stepsize": 0.01

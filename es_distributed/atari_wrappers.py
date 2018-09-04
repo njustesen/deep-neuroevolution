@@ -2,7 +2,6 @@ import numpy as np
 from collections import deque
 from PIL import Image
 import gym
-import vizdoomgym
 from gym import spaces
 
 
@@ -212,12 +211,21 @@ def wrap_deepmind(env, episode_life=False, skip=4, stack_frames=4, noop_max=30, 
     if noops:
         env.override_num_noops = noops
     if skip > 1:
-        assert 'NoFrameskip' in env.spec.id  # required for DeepMind-style skip
+        #assert 'NoFrameskip' in env.spec.id  # required for DeepMind-style skip
         env = MaxAndSkipEnv(env, skip=4)
     if 'FIRE' in env.unwrapped.get_action_meanings():
         env = FireResetEnv(env)
     env = WarpFrame(env, show_warped=show_warped)
     if stack_frames > 1:
         env = FrameStack(env, stack_frames)
+    env = ScaledFloatFrame(env)
+    return env
+
+
+# def wrap_deepmind(env, episode_life=True, clip_rewards=True):
+def wrap_vizdoom(env, skip=4, show_warped=True):
+    if skip > 1:
+        env = MaxAndSkipEnv(env, skip=4)
+    env = WarpFrame(env, show_warped=show_warped)
     env = ScaledFloatFrame(env)
     return env
