@@ -2,7 +2,6 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="8e276fd2-837d-40fe-bdfa-d6ca90c4a7e3" name="Default" comment="">
-      <change afterPath="$PROJECT_DIR$/es_distributed/es_niels.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/es_distributed/es.py" beforeDir="false" afterPath="$PROJECT_DIR$/es_distributed/es.py" afterDir="false" />
     </list>
@@ -31,7 +30,7 @@
         <entry file="file://$PROJECT_DIR$/es_distributed/policies.py">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="60">
-              <caret line="4" column="11" lean-forward="true" selection-start-line="4" selection-start-column="11" selection-end-line="4" selection-end-column="11" />
+              <caret line="4" column="11" selection-start-line="4" selection-start-column="11" selection-end-line="4" selection-end-column="11" />
             </state>
           </provider>
         </entry>
@@ -49,7 +48,7 @@
         <entry file="file://$PROJECT_DIR$/es_distributed/dist.py">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="2640">
-              <caret line="183" column="39" selection-start-line="183" selection-start-column="25" selection-end-line="183" selection-end-column="39" />
+              <caret line="183" column="39" selection-start-line="183" selection-start-column="39" selection-end-line="183" selection-end-column="39" />
               <folding>
                 <element signature="e#0#14#0" expanded="true" />
               </folding>
@@ -75,23 +74,23 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="es.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/es_distributed/es.py">
+      <file leaf-file-name="local_env_setup.sh" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/scripts/local_env_setup.sh">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="375">
-              <caret line="25" column="35" selection-start-line="25" selection-start-column="35" selection-end-line="25" selection-end-column="35" />
-              <folding>
-                <element signature="e#0#14#0" expanded="true" />
-              </folding>
+            <state relative-caret-position="45">
+              <caret line="3" selection-start-line="3" selection-end-line="3" />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="es_niels.py" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/es_distributed/es_niels.py">
+      <file leaf-file-name="es.py" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/es_distributed/es.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="45">
-              <caret line="3" selection-start-line="3" selection-end-line="3" selection-end-column="17" />
+            <state relative-caret-position="371">
+              <caret line="427" column="86" lean-forward="true" selection-start-line="427" selection-start-column="86" selection-end-line="427" selection-end-column="86" />
+              <folding>
+                <element signature="e#0#14#0" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -109,7 +108,7 @@
         <entry file="file://$PROJECT_DIR$/configurations/frostbite_es.json">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="30">
-              <caret line="2" column="28" lean-forward="true" selection-start-line="2" selection-start-column="28" selection-end-line="2" selection-end-column="28" />
+              <caret line="2" column="28" selection-start-line="2" selection-start-column="28" selection-end-line="2" selection-end-column="28" />
             </state>
           </provider>
         </entry>
@@ -121,7 +120,6 @@
       <find>step</find>
       <find>.act</find>
       <find>env.</find>
-      <find>render</find>
       <find>get_ra</find>
       <find>.rollout</find>
       <find>eval_prob</find>
@@ -144,6 +142,7 @@
       <find>Logger(</find>
       <find>logger.</find>
       <find>reps</find>
+      <find>render</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -173,9 +172,9 @@
   <component name="NodePackageJsonFileManager">
     <packageJsonPaths />
   </component>
-  <component name="ProjectFrameBounds" extendedState="1">
-    <option name="x" value="274" />
-    <option name="y" value="314" />
+  <component name="ProjectFrameBounds">
+    <option name="x" value="123" />
+    <option name="y" value="563" />
     <option name="width" value="1440" />
     <option name="height" value="877" />
   </component>
@@ -252,7 +251,8 @@
     <servers />
   </component>
   <component name="ToolWindowManager">
-    <frame x="274" y="314" width="1440" height="877" extended-state="1" />
+    <frame x="123" y="563" width="1440" height="877" extended-state="0" />
+    <editor active="true" />
     <layout>
       <window_info anchor="bottom" id="TODO" order="6" />
       <window_info anchor="bottom" id="Event Log" order="7" side_tool="true" />
@@ -556,13 +556,6 @@
         <state relative-caret-position="-944" />
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/scripts/local_env_setup.sh">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="45">
-          <caret line="3" selection-start-line="3" selection-end-line="3" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file:///Library/Frameworks/Python.framework/Versions/3.6/lib/python3.6/logging/__init__.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="1425">
@@ -573,7 +566,7 @@
     <entry file="file://$PROJECT_DIR$/es_distributed/dist.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="2640">
-          <caret line="183" column="39" selection-start-line="183" selection-start-column="25" selection-end-line="183" selection-end-column="39" />
+          <caret line="183" column="39" selection-start-line="183" selection-start-column="39" selection-end-line="183" selection-end-column="39" />
           <folding>
             <element signature="e#0#14#0" expanded="true" />
           </folding>
@@ -587,17 +580,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/scripts/local_run_exp.sh">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="165">
-          <caret line="11" lean-forward="true" selection-start-line="11" selection-end-line="11" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/configurations/frostbite_es.json">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="30">
-          <caret line="2" column="28" lean-forward="true" selection-start-line="2" selection-start-column="28" selection-end-line="2" selection-end-column="28" />
+          <caret line="2" column="28" selection-start-line="2" selection-start-column="28" selection-end-line="2" selection-end-column="28" />
         </state>
       </provider>
     </entry>
@@ -614,17 +600,7 @@
     <entry file="file://$PROJECT_DIR$/es_distributed/policies.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="60">
-          <caret line="4" column="11" lean-forward="true" selection-start-line="4" selection-start-column="11" selection-end-line="4" selection-end-column="11" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/es_distributed/es.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="375">
-          <caret line="25" column="35" selection-start-line="25" selection-start-column="35" selection-end-line="25" selection-end-column="35" />
-          <folding>
-            <element signature="e#0#14#0" expanded="true" />
-          </folding>
+          <caret line="4" column="11" selection-start-line="4" selection-start-column="11" selection-end-line="4" selection-end-column="11" />
         </state>
       </provider>
     </entry>
@@ -632,6 +608,30 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="45">
           <caret line="3" selection-start-line="3" selection-end-line="3" selection-end-column="17" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/scripts/local_env_setup.sh">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="45">
+          <caret line="3" selection-start-line="3" selection-end-line="3" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/scripts/local_run_exp.sh">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="165">
+          <caret line="11" lean-forward="true" selection-start-line="11" selection-end-line="11" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/es_distributed/es.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="371">
+          <caret line="427" column="86" lean-forward="true" selection-start-line="427" selection-start-column="86" selection-end-line="427" selection-end-column="86" />
+          <folding>
+            <element signature="e#0#14#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
