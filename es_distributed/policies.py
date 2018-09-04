@@ -259,7 +259,7 @@ class MujocoPolicy(Policy):
         return center[0], center[1], center[2]
 
 
-    def rollout(self, env, *, render=False, timestep_limit=None, save_obs=False, random_stream=None, policy_seed=None, bc_choice=None):
+    def rollout(self, env, *, render=False, timestep_limit=None, save_obs=False, random_stream=None, policy_seed=None, bc_choice=None, repetitions=1):
         """
         If random_stream is provided, the rollout will take noisy actions with noise drawn from that stream.
         Otherwise, no action noise will be added.
@@ -284,7 +284,8 @@ class MujocoPolicy(Policy):
             if save_obs:
                 obs.append(ob)
             ob, rew, done, _ = env.step(ac)
-            x_traj[t], y_traj[t], _ = self._get_pos(env.unwrapped.model)
+            #x_traj[t], y_traj[t], _ = self._get_pos(env.unwrapped.model)
+            x_traj[t], y_traj[t], _ = 0, 0, 0
             rews.append(rew)
             t += 1
             if render:
@@ -292,7 +293,8 @@ class MujocoPolicy(Policy):
             if done:
                 break
 
-        x_pos, y_pos, _ = self._get_pos(env.unwrapped.model)
+        #x_pos, y_pos, _ = self._get_pos(env.unwrapped.model)
+        x_pos, y_pos, _ = 0,0,0
         rews = np.array(rews, dtype=np.float32)
         x_traj[t:] = x_traj[t-1]
         y_traj[t:] = y_traj[t-1]

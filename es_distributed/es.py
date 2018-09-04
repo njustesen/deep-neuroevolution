@@ -23,6 +23,7 @@ Result = namedtuple('Result', [
     'ob_sum', 'ob_sumsq', 'ob_count'
 ])
 
+rendering = True
 
 class RunningStat(object):
     def __init__(self, shape, eps):
@@ -361,10 +362,10 @@ def run_master(master_redis_cfg, log_dir, exp):
 def rollout_and_update_ob_stat(policy, env, timestep_limit, rs, task_ob_stat, calc_obstat_prob, repetitions=1):
     if policy.needs_ob_stat and calc_obstat_prob != 0 and rs.rand() < calc_obstat_prob:
         rollout_rews, rollout_len, obs, rollout_nov = policy.rollout(
-            env, timestep_limit=timestep_limit, save_obs=True, random_stream=rs, render=False)
-        task_ob_stat.increment(obs.sum(axis=0), np.square(obs).sum(axis=0), len(obs), repetitions=repetitions)
+            env, timestep_limit=timestep_limit, save_obs=True, random_stream=rs, render=rendering, repetitions=repetitions)
+        task_ob_stat.increment(obs.sum(axis=0), np.square(obs).sum(axis=0), len(obs))
     else:
-        rollout_rews, rollout_len, rollout_nov = policy.rollout(env, timestep_limit=timestep_limit, random_stream=rs, render=False, repetitions=repetitions)
+        rollout_rews, rollout_len, rollout_nov = policy.rollout(env, timestep_limit=timestep_limit, random_stream=rs, render=rendering, repetitions=repetitions)
     return rollout_rews, rollout_len, rollout_nov
 
 
@@ -393,7 +394,7 @@ def run_worker(master_redis_cfg, relay_redis_cfg, noise, *, min_task_runtime=.2)
         if rs.rand() < config.eval_prob:
             # Evaluation: noiseless weights and noiseless actions
             policy.set_trainable_flat(task_data.params)
-            eval_rews, eval_length, _ = policy.rollout(env, timestep_limit=task_data.timestep_limit, repetitions=config.repetitions)
+            eval_rews, eval_length, _ = policy.rollout(env, timestep_limit=task_data.timestep_limit, repetitions=config.repetitions, render=rendering)
             eval_return = eval_rews.sum()
             logger.info('Eval result: task={} return={:.3f} length={}'.format(task_id, eval_return, eval_length))
             worker.push_result(task_id, Result(

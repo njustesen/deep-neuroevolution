@@ -2,8 +2,10 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="8e276fd2-837d-40fe-bdfa-d6ca90c4a7e3" name="Default" comment="">
+      <change afterPath="$PROJECT_DIR$/configurations/walker_es.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/es_distributed/es.py" beforeDir="false" afterPath="$PROJECT_DIR$/es_distributed/es.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/es_distributed/policies.py" beforeDir="false" afterPath="$PROJECT_DIR$/es_distributed/policies.py" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -17,7 +19,7 @@
       <file leaf-file-name="main.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/es_distributed/main.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="900">
+            <state relative-caret-position="700">
               <caret line="60" column="14" selection-start-line="60" selection-start-column="14" selection-end-line="60" selection-end-column="14" />
               <folding>
                 <element signature="e#0#12#0" expanded="true" />
@@ -29,8 +31,11 @@
       <file leaf-file-name="policies.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/es_distributed/policies.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="60">
-              <caret line="4" column="11" selection-start-line="4" selection-start-column="11" selection-end-line="4" selection-end-column="11" />
+            <state relative-caret-position="393">
+              <caret line="297" column="27" selection-start-line="297" selection-start-column="27" selection-end-line="297" selection-end-column="27" />
+              <folding>
+                <element signature="e#0#14#0" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -44,27 +49,6 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="dist.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/es_distributed/dist.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="2640">
-              <caret line="183" column="39" selection-start-line="183" selection-start-column="39" selection-end-line="183" selection-end-column="39" />
-              <folding>
-                <element signature="e#0#14#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="__init__.py" pinned="false" current-in-tab="false">
-        <entry file="file:///Library/Frameworks/Python.framework/Versions/3.6/lib/python3.6/logging/__init__.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1425">
-              <caret line="97" column="5" selection-start-line="97" selection-end-line="97" selection-end-column="5" />
-            </state>
-          </provider>
-        </entry>
-      </file>
       <file leaf-file-name="local_run_exp.sh" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/scripts/local_run_exp.sh">
           <provider selected="true" editor-type-id="text-editor">
@@ -72,6 +56,20 @@
               <caret line="11" lean-forward="true" selection-start-line="11" selection-end-line="11" />
             </state>
           </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="walker_es.json" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/configurations/walker_es.json">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="165">
+              <caret line="11" column="31" selection-start-line="11" selection-start-column="31" selection-end-line="11" selection-end-column="31" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="humanoid_nsres.json" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/configurations/humanoid_nsres.json">
+          <provider selected="true" editor-type-id="text-editor" />
         </entry>
       </file>
       <file leaf-file-name="local_env_setup.sh" pinned="false" current-in-tab="false">
@@ -86,11 +84,8 @@
       <file leaf-file-name="es.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/es_distributed/es.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="371">
-              <caret line="427" column="86" lean-forward="true" selection-start-line="427" selection-start-column="86" selection-end-line="427" selection-end-column="86" />
-              <folding>
-                <element signature="e#0#14#0" expanded="true" />
-              </folding>
+            <state relative-caret-position="274">
+              <caret line="364" column="122" selection-start-line="364" selection-start-column="122" selection-end-line="364" selection-end-column="122" />
             </state>
           </provider>
         </entry>
@@ -98,8 +93,8 @@
       <file leaf-file-name="local_run_redis.sh" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/scripts/local_run_redis.sh">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="90">
-              <caret line="6" selection-start-line="6" selection-end-line="6" />
+            <state relative-caret-position="30">
+              <caret line="2" column="68" selection-start-line="2" selection-start-column="25" selection-end-line="2" selection-end-column="68" />
             </state>
           </provider>
         </entry>
@@ -127,22 +122,26 @@
       <find>episode_cutoff_mode</find>
       <find>num_elites</find>
       <find>ram</find>
-      <find>env = wrap_deepmind(env)</find>
+      <find />
       <find>timestep_limit</find>
-      <find>eval_rews, eval_length, _</find>
-      <find>eval_rews, eval_lengt</find>
+      <find />
+      <find />
       <find>episodes_per_batch</find>
       <find>visual</find>
-      <find>rollout(</find>
       <find>.rollout(</find>
       <find>rollout</find>
-      <find>Average batch size</find>
+      <find />
       <find>rollout_and_update_ob_stat</find>
       <find>curr_task_id</find>
       <find>Logger(</find>
       <find>logger.</find>
       <find>reps</find>
+      <find>ac_space</find>
+      <find>render=</find>
       <find>render</find>
+      <find>rollout(</find>
+      <find>repeti</find>
+      <find>self._get_pos(env.unwrapped.model)</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -155,10 +154,11 @@
         <option value="$PROJECT_DIR$/es_distributed/main.py" />
         <option value="$PROJECT_DIR$/es_distributed/ga.py" />
         <option value="$PROJECT_DIR$/configurations/doom_basic_ga.json" />
-        <option value="$PROJECT_DIR$/es_distributed/policies.py" />
         <option value="$PROJECT_DIR$/configurations/frostbite_es.json" />
         <option value="$PROJECT_DIR$/configurations/doom_basic_es.json" />
         <option value="$PROJECT_DIR$/es_distributed/dist.py" />
+        <option value="$PROJECT_DIR$/configurations/walker_es.json" />
+        <option value="$PROJECT_DIR$/es_distributed/policies.py" />
         <option value="$PROJECT_DIR$/es_distributed/es.py" />
       </list>
     </option>
@@ -173,9 +173,9 @@
     <packageJsonPaths />
   </component>
   <component name="ProjectFrameBounds">
-    <option name="x" value="123" />
-    <option name="y" value="563" />
-    <option name="width" value="1440" />
+    <option name="x" value="1136" />
+    <option name="y" value="116" />
+    <option name="width" value="950" />
     <option name="height" value="877" />
   </component>
   <component name="ProjectView">
@@ -221,8 +221,8 @@
   </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
-      <recent name="$PROJECT_DIR$/es_distributed" />
       <recent name="$PROJECT_DIR$/configurations" />
+      <recent name="$PROJECT_DIR$/es_distributed" />
     </key>
   </component>
   <component name="RunDashboard">
@@ -251,7 +251,7 @@
     <servers />
   </component>
   <component name="ToolWindowManager">
-    <frame x="123" y="563" width="1440" height="877" extended-state="0" />
+    <frame x="552" y="94" width="950" height="877" extended-state="0" />
     <editor active="true" />
     <layout>
       <window_info anchor="bottom" id="TODO" order="6" />
@@ -261,7 +261,7 @@
       <window_info anchor="bottom" id="Version Control" order="7" />
       <window_info anchor="bottom" id="Python Console" order="7" />
       <window_info anchor="bottom" id="Terminal" order="7" />
-      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.19722222" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.29894736" />
       <window_info anchor="bottom" id="Docker" order="7" show_stripe_button="false" />
       <window_info anchor="right" id="Database" order="3" />
       <window_info anchor="right" id="SciView" order="3" />
@@ -295,16 +295,6 @@
     </breakpoint-manager>
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/configurations/doom_basic_ga.json">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="330">
-          <caret line="22" lean-forward="true" selection-start-line="22" selection-end-line="22" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/configurations/frostbite_es.json">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
     <entry file="file://$PROJECT_DIR$/configurations/frostbite_ga.json">
       <provider selected="true" editor-type-id="text-editor" />
     </entry>
@@ -544,13 +534,6 @@
         <state relative-caret-position="-6070" />
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/scripts/local_run_redis.sh">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="90">
-          <caret line="6" selection-start-line="6" selection-end-line="6" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/scripts/dependency.sh">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="-944" />
@@ -587,23 +570,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/es_distributed/main.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="900">
-          <caret line="60" column="14" selection-start-line="60" selection-start-column="14" selection-end-line="60" selection-end-column="14" />
-          <folding>
-            <element signature="e#0#12#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/es_distributed/policies.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="60">
-          <caret line="4" column="11" selection-start-line="4" selection-start-column="11" selection-end-line="4" selection-end-column="11" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/es_distributed/es_niels.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="45">
@@ -618,6 +584,13 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/scripts/local_run_redis.sh">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="30">
+          <caret line="2" column="68" selection-start-line="2" selection-start-column="25" selection-end-line="2" selection-end-column="68" />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/scripts/local_run_exp.sh">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="165">
@@ -625,13 +598,40 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/es_distributed/es.py">
+    <entry file="file://$PROJECT_DIR$/es_distributed/main.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="371">
-          <caret line="427" column="86" lean-forward="true" selection-start-line="427" selection-start-column="86" selection-end-line="427" selection-end-column="86" />
+        <state relative-caret-position="700">
+          <caret line="60" column="14" selection-start-line="60" selection-start-column="14" selection-end-line="60" selection-end-column="14" />
+          <folding>
+            <element signature="e#0#12#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/configurations/humanoid_nsres.json">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/configurations/walker_es.json">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="165">
+          <caret line="11" column="31" selection-start-line="11" selection-start-column="31" selection-end-line="11" selection-end-column="31" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/es_distributed/policies.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="393">
+          <caret line="297" column="27" selection-start-line="297" selection-start-column="27" selection-end-line="297" selection-end-column="27" />
           <folding>
             <element signature="e#0#14#0" expanded="true" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/es_distributed/es.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="274">
+          <caret line="364" column="122" selection-start-line="364" selection-start-column="122" selection-end-line="364" selection-end-column="122" />
         </state>
       </provider>
     </entry>
